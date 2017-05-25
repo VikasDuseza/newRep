@@ -21,3 +21,13 @@
             BirthDay.SendKeys("05");
             BirthYear.SendKeys("1999");
             submitbutton.Click();
+
+
+
+//SQL Query
+select UserId,
+(select min(LoginTime) from UserLog where LoginTime in (select Ul.LoginTime from UserLog as Ul where datepart(hh, Ul.LoginTime) >= 02 and Ul.UserId=ULL.UserId) ) as LoginLTTime
+,(select max(LogoutTime) from UserLog where LogoutTime in (select Ul.LogoutTime from UserLog as Ul where datepart(hh, dateadd(HOUR, 4, Ul.LogoutTime)) < 06 and Ul.UserId=ULL.UserId) ) as LogoutTime
+from UserLog as ULL
+
+group by UserId
